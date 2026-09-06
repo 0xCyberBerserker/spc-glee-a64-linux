@@ -96,13 +96,6 @@ register and memory-address reference used during low-level bring-up was the
 **Allwinner A64 User Manual v1.1** PDF. Vendor Android DTBs were used only as
 board evidence and are not redistributed here. See [docs/sources.md](docs/sources.md).
 
-## Non-goals
-
-- No private control applications or dashboards.
-- No personal network, desktop, monitoring or workstation configuration.
-- No proprietary firmware dumps, boot0, Android images or private keys.
-- No eMMC installation procedure until it has a separately reviewed safety design.
-
 Made with 🖤 in Barcelona City 🇪🇸
 
 ---
