@@ -39,8 +39,10 @@ Recorded on 2026-09-06:
   detected `mmc0`, mounted the ext4 root filesystem and started systemd.
 - Author, committer and DCO sign-off use the maintainer's verified identity.
 
-Before sending, refresh `sunxi/for-next`, rerun the validation commands and
-review the generated recipients. Do not send the series automatically.
+The v1 series was submitted upstream on 2026-09-06. Follow the public review
+in the [Lore thread][v1-thread]. Do not resend it or publish v2 automatically.
+
+[v1-thread]: https://lore.kernel.org/all/20260906-b4-spc-glee-a64-v1-v1-0-621df2155e31@proton.me/
 
 ## Español
 
@@ -67,5 +69,6 @@ Ese DTB exacto arrancó en frío Linux
 AXP803 por RSB, detectó `mmc0`, montó la raíz ext4 y ejecutó systemd. Autor,
 committer y firma DCO usan la identidad verificada del mantenedor.
 
-Antes del envío hay que actualizar `sunxi/for-next`, repetir las validaciones y
-revisar los destinatarios generados. La serie no debe enviarse automáticamente.
+La serie v1 se envió upstream el 06-09-2026. El proceso público de revisión está
+en el [hilo de Lore][v1-thread]. No debe reenviarse ni publicarse v2
+automáticamente.
