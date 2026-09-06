@@ -62,6 +62,8 @@ Or use Docker:
 ./scripts/docker-kernel.sh
 ```
 
+Limit host load when needed with `JOBS=2 ./scripts/docker-kernel.sh`.
+
 ## Cross-compilation with Docker
 
 The optional image contains both GNU cross toolchains:
@@ -133,6 +135,8 @@ Cross-compilación opcional con Docker:
 ./scripts/docker-build.sh
 ./scripts/docker-kernel.sh
 ```
+
+Para limitar la carga del host: `JOBS=2 ./scripts/docker-kernel.sh`.
 
 La imagen contiene toolchains GNU AArch64 y AArch32, se ejecuta con el UID del
 usuario, sólo monta el repositorio y no recibe acceso privilegiado, USB ni a

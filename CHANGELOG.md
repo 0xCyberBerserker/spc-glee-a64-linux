@@ -8,6 +8,7 @@ and Semantic Versioning.
 ### Changed / Cambiado
 
 - Centralized USB network and MAC defaults in one configuration file.
+- Added a `JOBS` limit for native and Docker kernel builds.
 
 ### Added / Añadido
 

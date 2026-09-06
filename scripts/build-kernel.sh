@@ -6,6 +6,9 @@ repo_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 linux_dir=${repo_dir}/src/linux
 build_dir=${repo_dir}/build/linux
 config=${build_dir}/.config
+jobs=${JOBS:-$(nproc)}
+
+[[ "${jobs}" =~ ^[1-9][0-9]*$ ]] || { printf 'JOBS must be a positive integer.\n' >&2; exit 2; }
 
 make -C "${linux_dir}" O="${build_dir}" ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
 
@@ -43,7 +46,7 @@ if grep -Eq '^CONFIG_(USB_MASS_STORAGE|USB_F_MASS_STORAGE|USB_CONFIGFS_MASS_STOR
 fi
 
 make -C "${linux_dir}" O="${build_dir}" ARCH=arm64 \
-	CROSS_COMPILE=aarch64-linux-gnu- -j"$(nproc)" Image modules \
+	CROSS_COMPILE=aarch64-linux-gnu- -j"${jobs}" Image modules \
 	allwinner/sun50i-a64-spc-glee-sd-minimal.dtb
 
 mkdir -p "${repo_dir}/build/artifacts"

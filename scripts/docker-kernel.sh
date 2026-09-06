@@ -6,6 +6,7 @@ repo_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 exec docker run --rm \
 	--user "$(id -u):$(id -g)" \
 	-e HOME=/tmp \
+	-e JOBS="${JOBS:-$(nproc)}" \
 	-v "${repo_dir}:/workspace" \
 	-w /workspace \
 	spc-glee-a64-cross:local \
