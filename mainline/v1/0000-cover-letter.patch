@@ -1,39 +1,50 @@
-From 08670d15ad6b0233277ea812bc01faa28628f905 Mon Sep 17 00:00:00 2001
-From: 0xCyberBerserker <64371885+0xCyberBerserker@users.noreply.github.com>
-Date: Sun, 6 Sep 2026 14:17:18 +0200
-Subject: [PATCH 0/2] arm64: dts: allwinner: Add SPC Glee 10.1 A64 support
+From e029e83bf7e0b298e78bdd1ca3c0c9247978d37e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Juan=20Carlos=20Guti=C3=A9rrez=20Lavado?=
+ <jcarlosgl96@proton.me>
+Date: Sun, 6 Sep 2026 17:22:40 +0200
+Subject: [PATCH v1 0/2] Add SPC Glee 10.1 A64 board support
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Add an initial device tree for the SPC Glee 10.1 tablet based on the
-Allwinner A64 and an AXP803 PMIC. This first series deliberately enables
-only the hardware that does not depend on downstream driver changes:
-battery monitoring, microSD, UART and USB peripheral mode.
+Add initial mainline support for the SPC Glee 10.1 tablet, based on the
+Allwinner A64 and AXP803 PMIC.
 
-Display, touchscreen, Wi-Fi, Bluetooth and audio remain disabled until
-their downstream requirements are either removed or replaced by generic
-upstream-quality fixes. The eMMC is also left disabled.
+The board description covers the 2 GiB DRAM configuration, essential
+CPU and system rails, microSD, UART, battery monitoring and USB device
+mode. Other peripherals remain disabled until independently validated.
 
-The settings come from the known-good staged tree used on the tested
-2 GiB RAM / 32 GB eMMC unit. This reduced mainline candidate is currently
-build- and schema-tested; a boot test of this exact DTB is still pending.
+The microSD slot deliberately uses broken-cd and a conservative 25 MHz
+limit because its card-detect wiring and higher-speed modes have not been
+validated independently. USB is limited to the tested peripheral role.
 
-Validation:
+The exact DTB produced by this series was cold-booted from microSD with
+Linux 7.3.0-rc1. The kernel detected all four CPU cores and 2 GiB RAM,
+probed the AXP803 over RSB, detected the microSD card, mounted the ext4
+root filesystem and started systemd. The boot command line did not use
+regulator_ignore_unused. No eMMC access was required.
 
-  make dt_binding_check \
-    DT_SCHEMA_FILES=Documentation/devicetree/bindings/arm/sunxi.yaml
-  make CHECK_DTBS=y allwinner/sun50i-a64-spc-glee.dtb
+Validation was run against sunxi/for-next at commit 913f7eda9f3e:
 
-0xCyberBerserker (2):
+  make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
+  make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image \
+       allwinner/sun50i-a64-spc-glee.dtb
+  make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- \
+       DT_SCHEMA_FILES=Documentation/devicetree/bindings/arm/sunxi.yaml \
+       dt_binding_check
+  make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- W=1 \
+       CHECK_DTBS=y allwinner/sun50i-a64-spc-glee.dtb
+
+Juan Carlos Gutiérrez Lavado (2):
   dt-bindings: arm: sunxi: Add SPC Glee 10.1 A64
   arm64: dts: allwinner: Add SPC Glee 10.1 A64
 
- .../devicetree/bindings/arm/sunxi.yaml        |  5 ++
- .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
- arch/arm64/boot/dts/allwinner/Makefile        |  1 +
- .../dts/allwinner/sun50i-a64-spc-glee.dts     | 79 +++++++++++++++++++
- 4 files changed, 87 insertions(+)
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../dts/allwinner/sun50i-a64-spc-glee.dts     | 123 ++++++++++++++++++
+ 4 files changed, 131 insertions(+)
  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a64-spc-glee.dts
 
-
-base-commit: 913f7eda9f3e3fb1c67285e144e202494d440049
 -- 
 2.55.0
