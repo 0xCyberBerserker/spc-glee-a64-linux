@@ -5,7 +5,7 @@ Before=systemd-networkd.service serial-getty@ttyGS0.service
 
 [Service]
 Type=oneshot
-EnvironmentFile=-/etc/default/spc-usb-gadget
+EnvironmentFile=/etc/default/spc-usb-gadget
 ExecStart=/usr/local/sbin/spc-usb-gadget
 RemainAfterExit=yes
 

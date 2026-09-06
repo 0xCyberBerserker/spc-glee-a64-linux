@@ -5,6 +5,10 @@ and Semantic Versioning.
 
 ## [Unreleased]
 
+### Changed / Cambiado
+
+- Centralized USB network and MAC defaults in one configuration file.
+
 ### Added / Añadido
 
 - Public-safe repository baseline.

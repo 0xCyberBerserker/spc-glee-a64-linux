@@ -51,6 +51,9 @@ block devices.
 ### 3. USB console and Ethernet on the tablet
 
 Copy `rootfs-overlay/` into the target root filesystem while it is offline.
+Network defaults are centralized in
+`rootfs-overlay/etc/default/spc-usb-gadget`; edit that file before copying the
+overlay if its subnet or locally administered MAC addresses conflict.
 Install a public SSH key supplied by the owner:
 
 ```bash
@@ -70,13 +73,13 @@ systemctl enable serial-getty@ttyGS0.service
 After boot, the tablet exposes:
 
 - ACM console as `/dev/ttyGS0` on the tablet and usually `/dev/ttyACM0` on Linux hosts.
-- ECM Ethernet: host `10.64.0.1`, tablet `10.64.0.2`.
+- ECM Ethernet using the addresses selected in `spc-usb-gadget`.
 
 Configure temporary host networking:
 
 ```bash
 sudo ./scripts/setup-usb-network-host.sh
-ssh root@10.64.0.2
+# Run the SSH command printed by the setup script.
 sudo ./scripts/cleanup-usb-network-host.sh
 ```
 
@@ -84,7 +87,7 @@ sudo ./scripts/cleanup-usb-network-host.sh
 
 - No `1f3a:efe8`: repeat the full power-off and Volume Up FEL sequence.
 - FEL permission denied: install the device-specific udev rule; do not use a global USB rule.
-- USB interface name changed: scripts identify ECM by its fixed host MAC, not by `usb0`.
+- USB interface name changed: scripts identify ECM by its configured host MAC, not by `usb0`.
 - SSH rejected: check that the public key was installed and file modes are correct.
 
 ## Español
@@ -131,6 +134,10 @@ Ruta Docker opcional:
 Copia `rootfs-overlay/` sobre el rootfs destino desmontado y añade únicamente
 la clave pública del propietario:
 
+Los valores de red están centralizados en
+`rootfs-overlay/etc/default/spc-usb-gadget`. Modifica ese único archivo antes
+de copiar el overlay si la subred o las MAC locales entran en conflicto.
+
 ```bash
 sudo ./scripts/install-ssh-key.sh /mnt/spc-rootfs ~/.ssh/id_ed25519.pub
 ```
@@ -138,12 +145,12 @@ sudo ./scripts/install-ssh-key.sh /mnt/spc-rootfs ~/.ssh/id_ed25519.pub
 En el sistema destino habilita `spc-usb-gadget.service`, `systemd-networkd`,
 `sshd` y `serial-getty@ttyGS0.service`.
 
-El gadget expone consola ACM y Ethernet ECM. La tablet usa `10.64.0.2` y el
-host `10.64.0.1`:
+El gadget expone consola ACM y Ethernet ECM con las direcciones elegidas en
+`spc-usb-gadget`:
 
 ```bash
 sudo ./scripts/setup-usb-network-host.sh
-ssh root@10.64.0.2
+# Ejecuta el comando SSH mostrado por el script anterior.
 sudo ./scripts/cleanup-usb-network-host.sh
 ```
 

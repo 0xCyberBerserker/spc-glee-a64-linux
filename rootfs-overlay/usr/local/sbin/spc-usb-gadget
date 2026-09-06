@@ -3,8 +3,11 @@
 set -euo pipefail
 
 gadget=/sys/kernel/config/usb_gadget/spc_glee
-host_mac=${SPC_USB_HOST_MAC:-02:64:00:00:00:01}
-device_mac=${SPC_USB_DEVICE_MAC:-02:64:00:00:00:02}
+network_file=/run/systemd/network/20-usb0.network
+: "${SPC_USB_HOST_MAC:?Missing SPC_USB_HOST_MAC}"
+: "${SPC_USB_DEVICE_MAC:?Missing SPC_USB_DEVICE_MAC}"
+: "${SPC_USB_DEVICE_ADDRESS:?Missing SPC_USB_DEVICE_ADDRESS}"
+: "${SPC_USB_GATEWAY:?Missing SPC_USB_GATEWAY}"
 serial=SPCGLEE-A64
 
 if [[ -r /etc/machine-id ]]; then
@@ -13,6 +16,9 @@ if [[ -r /etc/machine-id ]]; then
 fi
 
 mountpoint -q /sys/kernel/config || mount -t configfs none /sys/kernel/config
+mkdir -p "${network_file%/*}"
+printf '[Match]\nName=usb0\n\n[Network]\nAddress=%s\nGateway=%s\nLinkLocalAddressing=no\nConfigureWithoutCarrier=yes\n' \
+	"${SPC_USB_DEVICE_ADDRESS}" "${SPC_USB_GATEWAY}" >"${network_file}"
 if [[ -s "${gadget}/UDC" ]]; then
 	exit 0
 fi
@@ -27,8 +33,8 @@ printf 'Console and USB Ethernet' >"${gadget}/configs/c.1/strings/0x409/configur
 printf '250' >"${gadget}/configs/c.1/MaxPower"
 
 mkdir -p "${gadget}/functions/acm.GS0" "${gadget}/functions/ecm.usb0"
-printf '%s' "${host_mac}" >"${gadget}/functions/ecm.usb0/host_addr"
-printf '%s' "${device_mac}" >"${gadget}/functions/ecm.usb0/dev_addr"
+printf '%s' "${SPC_USB_HOST_MAC}" >"${gadget}/functions/ecm.usb0/host_addr"
+printf '%s' "${SPC_USB_DEVICE_MAC}" >"${gadget}/functions/ecm.usb0/dev_addr"
 ln -s "${gadget}/functions/acm.GS0" "${gadget}/configs/c.1/acm.GS0"
 ln -s "${gadget}/functions/ecm.usb0" "${gadget}/configs/c.1/ecm.usb0"
 
