@@ -5,6 +5,8 @@ and Semantic Versioning.
 
 ## [Unreleased]
 
+## [0.1.0-alpha.1] - 2026-09-06
+
 ### Changed / Cambiado
 
 - Centralized USB network and MAC defaults in one configuration file.
