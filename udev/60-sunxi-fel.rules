@@ -1,0 +1,2 @@
+# Allow the active local user to access only the Allwinner FEL USB device.
+SUBSYSTEM=="usb", ATTR{idVendor}=="1f3a", ATTR{idProduct}=="efe8", TAG+="uaccess"

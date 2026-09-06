@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: MIT
+set -euo pipefail
+
+gadget=/sys/kernel/config/usb_gadget/spc_glee
+host_mac=${SPC_USB_HOST_MAC:-02:64:00:00:00:01}
+device_mac=${SPC_USB_DEVICE_MAC:-02:64:00:00:00:02}
+serial=SPCGLEE-A64
+
+if [[ -r /etc/machine-id ]]; then
+	read -r machine_id </etc/machine-id
+	serial=${machine_id:0:16}
+fi
+
+mountpoint -q /sys/kernel/config || mount -t configfs none /sys/kernel/config
+if [[ -s "${gadget}/UDC" ]]; then
+	exit 0
+fi
+
+mkdir -p "${gadget}/strings/0x409" "${gadget}/configs/c.1/strings/0x409"
+printf '0x1d6b' >"${gadget}/idVendor"
+printf '0x0104' >"${gadget}/idProduct"
+printf '%s' "${serial}" >"${gadget}/strings/0x409/serialnumber"
+printf 'SPC' >"${gadget}/strings/0x409/manufacturer"
+printf 'Glee 10.1 ACM+ECM' >"${gadget}/strings/0x409/product"
+printf 'Console and USB Ethernet' >"${gadget}/configs/c.1/strings/0x409/configuration"
+printf '250' >"${gadget}/configs/c.1/MaxPower"
+
+mkdir -p "${gadget}/functions/acm.GS0" "${gadget}/functions/ecm.usb0"
+printf '%s' "${host_mac}" >"${gadget}/functions/ecm.usb0/host_addr"
+printf '%s' "${device_mac}" >"${gadget}/functions/ecm.usb0/dev_addr"
+ln -s "${gadget}/functions/acm.GS0" "${gadget}/configs/c.1/acm.GS0"
+ln -s "${gadget}/functions/ecm.usb0" "${gadget}/configs/c.1/ecm.usb0"
+
+udc=$(find /sys/class/udc -mindepth 1 -maxdepth 1 -printf '%f\n' | head -n 1)
+test -n "${udc}"
+printf '%s' "${udc}" >"${gadget}/UDC"

@@ -1,0 +1,10 @@
+/build/
+/src/
+*.img
+*.bin
+*.dtb
+*.itb
+*.log
+*.key
+authorized_keys
+.env

@@ -1,0 +1,83 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+
+#include "sun50i-a64-spc-glee-display-stage1.dts"
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/pwm/pwm.h>
+
+/ {
+	model = "SPC Glee 10.1 A64 volatile LVDS stage 2";
+
+	backlight: backlight {
+		compatible = "pwm-backlight";
+		pwms = <&pwm 0 20000 PWM_POLARITY_INVERTED>;
+		brightness-levels = <0 32 64 128 255>;
+		default-brightness-level = <1>;
+		enable-gpios = <&pio 3 23 GPIO_ACTIVE_HIGH>; /* PD23 */
+		post-pwm-on-delay-ms = <20>;
+		pwm-off-delay-ms = <20>;
+	};
+
+	speaker_enable: speaker-enable {
+		compatible = "regulator-fixed";
+		regulator-name = "speaker-enable";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		gpio = <&pio 7 7 GPIO_ACTIVE_HIGH>; /* PH7 */
+		enable-active-high;
+		regulator-boot-on;
+		regulator-always-on;
+	};
+
+};
+
+&panel_lvds {
+	backlight = <&backlight>;
+};
+
+&pwm {
+	status = "okay";
+};
+
+&codec {
+	status = "okay";
+};
+
+&codec_analog {
+	cpvdd-supply = <&reg_eldo1>;
+	status = "okay";
+};
+
+&dai {
+	status = "okay";
+};
+
+&sound {
+	status = "okay";
+};
+
+&i2c1 {
+	status = "okay";
+
+	accelerometer@19 {
+		compatible = "stk8ba50";
+		reg = <0x19>;
+		interrupt-parent = <&pio>;
+		interrupts = <7 5 IRQ_TYPE_EDGE_RISING>; /* PH5 */
+	};
+};
+
+&i2c1_pins {
+	bias-pull-up;
+};
+
+&lradc {
+	vref-supply = <&reg_aldo3>;
+	status = "okay";
+
+	button-500 {
+		label = "Volume Down";
+		linux,code = <KEY_VOLUMEDOWN>;
+		channel = <0>;
+		voltage = <500000>;
+	};
+};

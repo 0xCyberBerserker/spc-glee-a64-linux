@@ -1,0 +1,87 @@
+From: SPC Glee A64 Linux contributors
+Subject: [PATCH] arm64: sunxi: add SPC Glee runtime support
+
+Target: Linux v7.1.9, ffc82ed665314ccf141abc4710830f3f424d98ea
+
+The device-tree sources are installed separately by apply-linux-support.sh.
+This patch registers them and retains the three runtime fixes used by the
+known-good tablet build.
+
+Apply with: git apply --unidiff-zero
+
+---
+diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+index d116864b6..0fb1bae64 100644
+--- a/arch/arm64/boot/dts/allwinner/Makefile
++++ b/arch/arm64/boot/dts/allwinner/Makefile
+@@ -17,0 +18,5 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-sopine-baseboard.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-spc-glee-volatile.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-spc-glee-display-stage1.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-spc-glee-display-stage2.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-spc-glee-sd.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-spc-glee-sd-minimal.dtb
+diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+index f47a326dd..c8571b3e0 100644
+--- a/drivers/dma/sun6i-dma.c
++++ b/drivers/dma/sun6i-dma.c
+@@ -357,2 +357,4 @@ static size_t sun6i_get_chan_size(struct sun6i_pchan *pchan)
+-	pos = readl(pchan->base + DMA_CHAN_LLI_ADDR);
+-	bytes = readl(pchan->base + DMA_CHAN_CUR_CNT);
++	do {
++		pos = readl(pchan->base + DMA_CHAN_LLI_ADDR);
++		bytes = readl(pchan->base + DMA_CHAN_CUR_CNT);
++	} while (pos != readl(pchan->base + DMA_CHAN_LLI_ADDR));
+@@ -604,0 +606 @@ static int set_config(struct sun6i_dma_dev *sdev,
++			u8 port,
+@@ -619 +621,3 @@ static int set_config(struct sun6i_dma_dev *sdev,
+-			src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
++			src_addr_width = port == 15 ?
++				DMA_SLAVE_BUSWIDTH_2_BYTES :
++				DMA_SLAVE_BUSWIDTH_4_BYTES;
+@@ -733 +737 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_slave_sg(
+-	ret = set_config(sdev, sconfig, dir, &lli_cfg);
++	ret = set_config(sdev, sconfig, dir, vchan->port, &lli_cfg);
+@@ -816 +820 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
+-	ret = set_config(sdev, sconfig, dir, &lli_cfg);
++	ret = set_config(sdev, sconfig, dir, vchan->port, &lli_cfg);
+diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
+index 5ccc96764..85b830f9a 100644
+--- a/drivers/input/touchscreen/silead.c
++++ b/drivers/input/touchscreen/silead.c
+@@ -56 +56 @@
+-#define SILEAD_POWER_SLEEP	20
++#define SILEAD_POWER_SLEEP	50
+@@ -321 +321,2 @@ static int silead_ts_init(struct i2c_client *client)
+-	if (error)
++	/* The GSL3675B NACKs setup writes; its vendor driver ignores EAGAIN. */
++	if (error && error != -EAGAIN)
+@@ -327 +328 @@ static int silead_ts_init(struct i2c_client *client)
+-	if (error)
++	if (error && error != -EAGAIN)
+@@ -333 +334 @@ static int silead_ts_init(struct i2c_client *client)
+-	if (error)
++	if (error && error != -EAGAIN)
+@@ -339 +340 @@ static int silead_ts_init(struct i2c_client *client)
+-	if (error)
++	if (error && error != -EAGAIN)
+@@ -356 +357 @@ static int silead_ts_reset(struct i2c_client *client)
+-	if (error)
++	if (error && error != -EAGAIN)
+@@ -362 +363 @@ static int silead_ts_reset(struct i2c_client *client)
+-	if (error)
++	if (error && error != -EAGAIN)
+@@ -368 +369 @@ static int silead_ts_reset(struct i2c_client *client)
+-	if (error)
++	if (error && error != -EAGAIN)
+@@ -384 +385 @@ static int silead_ts_startup(struct i2c_client *client)
+-	if (error) {
++	if (error && error != -EAGAIN) {
+diff --git a/drivers/mmc/core/pwrseq_simple.c b/drivers/mmc/core/pwrseq_simple.c
+index 4b47e6c3b..0d038a7bd 100644
+--- a/drivers/mmc/core/pwrseq_simple.c
++++ b/drivers/mmc/core/pwrseq_simple.c
+@@ -140 +140,3 @@ static int mmc_pwrseq_simple_probe(struct platform_device *pdev)
+-		if (IS_ERR(pwrseq->reset_ctrl))
++		if (PTR_ERR_OR_ZERO(pwrseq->reset_ctrl) == -ENOENT)
++			pwrseq->reset_ctrl = NULL;
++		else if (IS_ERR(pwrseq->reset_ctrl))

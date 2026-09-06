@@ -1,0 +1,3 @@
+# Locally administered addresses. Change them when connecting multiple tablets.
+SPC_USB_HOST_MAC=02:64:00:00:00:01
+SPC_USB_DEVICE_MAC=02:64:00:00:00:02

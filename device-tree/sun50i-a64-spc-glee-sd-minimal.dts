@@ -1,0 +1,117 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+
+#include "sun50i-a64-spc-glee-display-stage2.dts"
+
+/ {
+	model = "SPC Glee 10.1 A64 minimal microSD probe";
+
+	wifi_pwrseq: wifi-pwrseq {
+		compatible = "mmc-pwrseq-simple";
+		reset-gpios = <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
+		post-power-on-delay-ms = <200>;
+	};
+
+	wifi_vcc: wifi-vcc {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc-wifi-8089-fixed";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		vin-supply = <&reg_dc1sw>;
+	};
+
+	chosen {
+		bootargs = "console=ttyS0,115200 earlycon=uart8250,mmio32,0x01c28000 rdinit=/init loglevel=8 ignore_loglevel regulator_ignore_unused panic=-1";
+	};
+};
+
+&mmc0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc0_pins>;
+	vmmc-supply = <&reg_dcdc1>;
+	vqmmc-supply = <&reg_dcdc1>;
+	broken-cd;
+	bus-width = <4>;
+	max-frequency = <25000000>;
+	status = "okay";
+};
+
+&i2c0 {
+	status = "okay";
+
+	touchscreen@40 {
+		compatible = "silead,gsl3675";
+		reg = <0x40>;
+		interrupt-parent = <&pio>;
+		interrupts = <7 4 IRQ_TYPE_LEVEL_HIGH>; /* PH4 */
+		power-gpios = <&pio 7 8 GPIO_ACTIVE_HIGH>; /* PH8 */
+		firmware-name = "spc-glee-a102.fw";
+		touchscreen-size-x = <1728>;
+		touchscreen-size-y = <1080>;
+		touchscreen-inverted-x;
+		silead,max-fingers = <5>;
+		avdd-supply = <&reg_ldo_io0>;
+		vddio-supply = <&reg_ldo_io0>;
+	};
+};
+
+&mmc1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc1_pins>;
+	vmmc-supply = <&wifi_vcc>;
+	vqmmc-supply = <&reg_dldo4>;
+	mmc-pwrseq = <&wifi_pwrseq>;
+	bus-width = <4>;
+	max-frequency = <50000000>;
+	non-removable;
+	cap-sdio-irq;
+	keep-power-in-suspend;
+	status = "okay";
+};
+
+&mmc2 {
+	status = "disabled";
+};
+
+&axp_adc {
+	status = "okay";
+};
+
+&battery_power_supply {
+	status = "okay";
+};
+
+&pio {
+	vcc-pg-supply = <&reg_dldo4>;
+};
+
+&reg_dc1sw {
+	regulator-name = "vcc-wifi-8089";
+};
+
+&reg_dldo4 {
+	regulator-min-microvolt = <3300000>;
+	regulator-max-microvolt = <3300000>;
+	regulator-name = "vcc-wifi-io";
+};
+
+&reg_ldo_io0 {
+	regulator-min-microvolt = <3300000>;
+	regulator-max-microvolt = <3300000>;
+	regulator-name = "vcc-ctp";
+	status = "okay";
+};
+
+&uart1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
+	uart-has-rtscts;
+	status = "okay";
+
+	bluetooth {
+		compatible = "realtek,rtl8723bs-bt";
+		enable-gpios = <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
+		host-wake-gpios = <&r_pio 0 5 GPIO_ACTIVE_HIGH>; /* PL5 */
+		device-wake-gpios = <&r_pio 0 6 GPIO_ACTIVE_HIGH>; /* PL6 */
+		max-speed = <1500000>;
+	};
+};

@@ -1,0 +1,39 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+
+#include "sun50i-a64-spc-glee-display-stage2.dts"
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	model = "SPC Glee 10.1 A64 microSD system";
+
+	chosen {
+		bootargs = "console=tty0 root=LABEL=ARCHROOT rootwait rw loglevel=6";
+	};
+};
+
+&mmc0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc0_pins>;
+	vmmc-supply = <&reg_dcdc1>;
+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;
+	disable-wp;
+	bus-width = <4>;
+	max-frequency = <50000000>;
+	status = "okay";
+};
+
+&mmc1 {
+	status = "disabled";
+};
+
+&mmc2 {
+	status = "disabled";
+};
+
+&axp_adc {
+	status = "okay";
+};
+
+&battery_power_supply {
+	status = "okay";
+};
