@@ -7,7 +7,7 @@ cd "${repo_dir}"
 
 required=(
 	README.md AGENTS.md CHANGELOG.md manual_usuario.md arquitectura.md roadmap.md
-	docs/sources.md docs/hardware-support.md
+	docs/sources.md docs/hardware-support.md docs/touchscreen-firmware.md
 	device-tree/sun50i-a64-spc-glee-sd-minimal.dts
 	docker/Dockerfile scripts/build-kernel.sh
 )
@@ -31,4 +31,5 @@ if rg -n --hidden --glob '!.git/**' --glob '!scripts/validate.sh' \
 fi
 
 git diff --check
+test -z "$(git ls-files '*.fw')"
 printf 'Validation passed.\n'

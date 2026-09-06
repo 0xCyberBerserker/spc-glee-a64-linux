@@ -63,6 +63,9 @@ sudo ./scripts/install-ssh-key.sh /mnt/spc-rootfs ~/.ssh/id_ed25519.pub
 Never copy a private key. The included SSH policy disables password login and
 permits root only with a public key.
 
+Install the owner-supplied touchscreen firmware separately as described in
+`docs/touchscreen-firmware.md`.
+
 Enable the generic services in the target system:
 
 ```bash
@@ -156,3 +159,6 @@ sudo ./scripts/cleanup-usb-network-host.sh
 
 No copies nunca una clave privada. La plantilla SSH desactiva contraseñas y
 sólo permite acceso root mediante clave pública.
+
+Instala por separado el firmware táctil aportado por el propietario siguiendo
+`docs/touchscreen-firmware.md`.

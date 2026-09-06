@@ -2,6 +2,7 @@
 /src/
 *.img
 *.bin
+*.fw
 *.dtb
 *.itb
 *.log

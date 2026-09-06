@@ -22,7 +22,9 @@ credentials, workstation configuration, firmware dumps or storage images.
 - Audio: A64 codec, sun6i DMA and external speaker enable on PH7.
 - Cameras: GT2005 rear and GC0312 front, currently unsupported by mainline drivers.
 
-See [docs/hardware-support.md](docs/hardware-support.md) for the evidence matrix.
+See [docs/hardware-support.md](docs/hardware-support.md) for the evidence matrix
+and [docs/touchscreen-firmware.md](docs/touchscreen-firmware.md) for the
+owner-supplied firmware workflow.
 
 ## Current boot model
 
@@ -142,4 +144,5 @@ nivel fue el PDF **Allwinner A64 User Manual v1.1**. Los DTB vendor de Android
 sirvieron como evidencia, pero no se redistribuyen.
 
 Consulta [manual_usuario.md](manual_usuario.md),
-[arquitectura.md](arquitectura.md) y [roadmap.md](roadmap.md).
+[arquitectura.md](arquitectura.md), [roadmap.md](roadmap.md) y
+[docs/touchscreen-firmware.md](docs/touchscreen-firmware.md).

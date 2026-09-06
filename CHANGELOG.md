@@ -17,3 +17,4 @@ and Semantic Versioning.
 - Native and Docker AArch64 cross-compilation paths.
 - Configurable ACM + ECM USB gadget and root-key-only SSH templates.
 - Hardware evidence, source provenance and bring-up history.
+- Owner-supplied touchscreen firmware verification and installation workflow.

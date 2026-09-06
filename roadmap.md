@@ -8,8 +8,8 @@
 - [x] Known-good staged device tree.
 - [x] Native and Docker kernel cross-build entry points.
 - [x] Configurable USB ACM, ECM and key-only SSH templates.
-- [ ] Reproduce a clean kernel build from a fresh clone and record hashes.
-- [ ] Select and document a redistributable touchscreen-firmware workflow.
+- [x] Reproduce a clean kernel build from a fresh clone and record hashes.
+- [x] Document an owner-supplied touchscreen-firmware workflow without redistributing the blob.
 
 ### P1 — reproducible boot media
 
@@ -39,8 +39,8 @@
 - [x] Device tree por etapas conocido-bueno.
 - [x] Cross-compilación nativa y con Docker.
 - [x] Plantillas configurables ACM, ECM y SSH sólo con clave.
-- [ ] Repetir una compilación limpia y registrar hashes.
-- [ ] Definir un flujo redistribuible para el firmware táctil.
+- [x] Repetir una compilación limpia y registrar hashes.
+- [x] Documentar un flujo de firmware táctil aportado por el propietario sin redistribuir el blob.
 
 ### P1 — medio de arranque reproducible
 
