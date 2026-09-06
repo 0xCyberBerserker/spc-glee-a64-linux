@@ -33,7 +33,7 @@ Trust boundaries:
 - Upstream Linux/U-Boot/TF-A: executable source baseline.
 - Vendor Android DTB/boot0: read-only hardware evidence, not trusted source code.
 - Live FEL/Linux observations: confirmation for this tested unit and revision.
-- User-reported uptime: operational evidence, not a reproducible stress test.
+- Maintainer-reported uptime: operational evidence, not a reproducible stress test.
 
 USB uses ConfigFS to expose ACM and ECM. SSH accepts an owner-provided public
 key. The container build mounts only this repository and does not receive USB or

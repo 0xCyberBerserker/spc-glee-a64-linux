@@ -46,6 +46,6 @@ captured by an automated soak-test record.
 | Cámaras | Pendientes | GT2005 y GC0312 sin drivers mainline compatibles |
 | Suspensión | Parcial | Uso normal estable; falta una prueba formal repetida |
 
-Nota operativa del 06-09-2026: el usuario comunica 6–7 días de uptime conectado
+Nota operativa del 06-09-2026: el mantenedor comunica 6–7 días de uptime conectado
 por USB sin reinicios necesarios. Todavía no existe un registro automático de
 soak test que mida ese periodo.

@@ -6,7 +6,7 @@ current device tree and reusable USB access without including private apps,
 credentials, workstation configuration, firmware dumps or storage images.
 
 > Status: Linux boots from microSD and the tested system has remained stable for
-> a user-reported 6–7 day USB-connected uptime. This duration is a field report,
+> a maintainer-reported 6–7 day USB-connected uptime. This duration is a field report,
 > not an automated benchmark.
 
 ## Confirmed hardware
@@ -111,7 +111,7 @@ device tree actual y un acceso USB reutilizable sin incluir aplicaciones
 privadas, credenciales, configuración de la torre, dumps de firmware ni imágenes.
 
 > Estado: Linux arranca desde microSD y el sistema probado acumula un uptime
-> comunicado por el usuario de 6–7 días conectado por USB. Es una observación
+> comunicado por el mantenedor de 6–7 días conectado por USB. Es una observación
 > de campo, no un benchmark automatizado.
 
 La eMMC queda deshabilitada mediante `mmc2` en el device tree conocido-bueno.
