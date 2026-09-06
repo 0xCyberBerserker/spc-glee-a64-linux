@@ -5,6 +5,15 @@ tablet with an **Allwinner A64** SoC. It records the verified bring-up, the
 current device tree and reusable USB access without including private apps,
 credentials, workstation configuration, firmware dumps or storage images.
 
+## Upstream status
+
+The [minimal board-support series](https://github.com/0xCyberBerserker/spc-glee-a64-linux/tree/features/mainline-dts/mainline)
+contains the exact hardware-tested candidate DTB. It cold-booted Linux from
+microSD, mounted the root filesystem and started systemd. PATCH v1 was
+[submitted for upstream review](https://lore.kernel.org/all/20260906-b4-spc-glee-a64-v1-v1-0-621df2155e31@proton.me/)
+on 2026-09-06. These results apply to the minimal mainline candidate; the
+known-good runtime and its broader hardware support remain a separate baseline.
+
 > Status: Linux boots from microSD and the tested system has remained stable for
 > a maintainer-reported 6–7 day USB-connected uptime. This duration is a field report,
 > not an automated benchmark.
@@ -106,6 +115,15 @@ Base limpia y reproducible para ejecutar Linux en la tablet **SPC Glee 10.1 de
 2 GB/32 GB** con SoC **Allwinner A64**. Documenta el bring-up verificado, el
 device tree actual y un acceso USB reutilizable sin incluir aplicaciones
 privadas, credenciales, configuración de la torre, dumps de firmware ni imágenes.
+
+## Estado upstream
+
+La [serie mínima de soporte de placa](https://github.com/0xCyberBerserker/spc-glee-a64-linux/tree/features/mainline-dts/mainline)
+contiene el DTB candidato exacto probado en hardware. Arrancó Linux en frío
+desde microSD, montó el sistema raíz e inició systemd. El PATCH v1 se
+[envió para revisión upstream](https://lore.kernel.org/all/20260906-b4-spc-glee-a64-v1-v1-0-621df2155e31@proton.me/)
+el 06-09-2026. Estos resultados corresponden al candidato mainline mínimo; el
+runtime conocido-bueno y su soporte de hardware más amplio siguen separados.
 
 > Estado: Linux arranca desde microSD y el sistema probado acumula un uptime
 > comunicado por el mantenedor de 6–7 días conectado por USB. Es una observación
