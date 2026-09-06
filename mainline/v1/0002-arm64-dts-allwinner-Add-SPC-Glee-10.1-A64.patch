@@ -1,0 +1,117 @@
+From 08670d15ad6b0233277ea812bc01faa28628f905 Mon Sep 17 00:00:00 2001
+From: 0xCyberBerserker <64371885+0xCyberBerserker@users.noreply.github.com>
+Date: Sun, 6 Sep 2026 14:16:35 +0200
+Subject: [PATCH 2/2] arm64: dts: allwinner: Add SPC Glee 10.1 A64
+
+Add minimal support for the SPC Glee 10.1 tablet. Enable the AXP803
+PMIC, battery monitoring, microSD slot, UART console and USB peripheral
+port. Leave eMMC and peripherals that still require local driver changes
+disabled.
+
+Signed-off-by: 0xCyberBerserker <64371885+0xCyberBerserker@users.noreply.github.com>
+---
+ arch/arm64/boot/dts/allwinner/Makefile        |  1 +
+ .../dts/allwinner/sun50i-a64-spc-glee.dts     | 79 +++++++++++++++++++
+ 2 files changed, 80 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a64-spc-glee.dts
+
+diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+index aa21f58a4..cc6687b39 100644
+--- a/arch/arm64/boot/dts/allwinner/Makefile
++++ b/arch/arm64/boot/dts/allwinner/Makefile
+@@ -21,6 +21,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pinephone-1.2.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pinetab.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-pinetab-early-adopter.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-sopine-baseboard.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-spc-glee.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a64-teres-i.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h64-remix-mini-pc.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a100-allwinner-perf1.dtb
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-spc-glee.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-spc-glee.dts
+new file mode 100644
+index 000000000..0e0d24369
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-spc-glee.dts
+@@ -0,0 +1,79 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Copyright (C) 2026 SPC Glee A64 Linux contributors
++ */
++
++/dts-v1/;
++
++#include "sun50i-a64.dtsi"
++
++/ {
++	model = "SPC Glee 10.1 A64";
++	compatible = "spc,glee-10-1-a64", "allwinner,sun50i-a64";
++	chassis-type = "tablet";
++
++	aliases {
++		serial0 = &uart0;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	memory@40000000 {
++		device_type = "memory";
++		reg = <0x40000000 0x80000000>;
++	};
++};
++
++&mmc0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc0_pins>;
++	vmmc-supply = <&reg_dcdc1>;
++	vqmmc-supply = <&reg_dcdc1>;
++	broken-cd;
++	bus-width = <4>;
++	max-frequency = <25000000>;
++	status = "okay";
++};
++
++&r_rsb {
++	status = "okay";
++
++	axp803: pmic@3a3 {
++		compatible = "x-powers,axp803";
++		reg = <0x3a3>;
++		interrupt-parent = <&r_intc>;
++		interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
++	};
++};
++
++#include "axp803.dtsi"
++
++&axp_adc {
++	status = "okay";
++};
++
++&battery_power_supply {
++	status = "okay";
++};
++
++&reg_dcdc1 {
++	regulator-always-on;
++	regulator-name = "vcc-3v3";
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_pb_pins>;
++	status = "okay";
++};
++
++&usb_otg {
++	dr_mode = "peripheral";
++	status = "okay";
++};
++
++&usbphy {
++	status = "okay";
++};
+-- 
+2.55.0
+

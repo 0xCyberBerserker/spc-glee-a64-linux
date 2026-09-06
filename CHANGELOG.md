@@ -5,6 +5,11 @@ and Semantic Versioning.
 
 ## [Unreleased]
 
+### Added / Añadido
+
+- Added a schema-validated draft mainline series for minimal SPC Glee A64
+  board support.
+
 ## [0.1.0-alpha.1] - 2026-09-06
 
 ### Changed / Cambiado

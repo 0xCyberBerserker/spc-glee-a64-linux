@@ -1,0 +1,39 @@
+From 08670d15ad6b0233277ea812bc01faa28628f905 Mon Sep 17 00:00:00 2001
+From: 0xCyberBerserker <64371885+0xCyberBerserker@users.noreply.github.com>
+Date: Sun, 6 Sep 2026 14:17:18 +0200
+Subject: [PATCH 0/2] arm64: dts: allwinner: Add SPC Glee 10.1 A64 support
+
+Add an initial device tree for the SPC Glee 10.1 tablet based on the
+Allwinner A64 and an AXP803 PMIC. This first series deliberately enables
+only the hardware that does not depend on downstream driver changes:
+battery monitoring, microSD, UART and USB peripheral mode.
+
+Display, touchscreen, Wi-Fi, Bluetooth and audio remain disabled until
+their downstream requirements are either removed or replaced by generic
+upstream-quality fixes. The eMMC is also left disabled.
+
+The settings come from the known-good staged tree used on the tested
+2 GiB RAM / 32 GB eMMC unit. This reduced mainline candidate is currently
+build- and schema-tested; a boot test of this exact DTB is still pending.
+
+Validation:
+
+  make dt_binding_check \
+    DT_SCHEMA_FILES=Documentation/devicetree/bindings/arm/sunxi.yaml
+  make CHECK_DTBS=y allwinner/sun50i-a64-spc-glee.dtb
+
+0xCyberBerserker (2):
+  dt-bindings: arm: sunxi: Add SPC Glee 10.1 A64
+  arm64: dts: allwinner: Add SPC Glee 10.1 A64
+
+ .../devicetree/bindings/arm/sunxi.yaml        |  5 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ arch/arm64/boot/dts/allwinner/Makefile        |  1 +
+ .../dts/allwinner/sun50i-a64-spc-glee.dts     | 79 +++++++++++++++++++
+ 4 files changed, 87 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a64-spc-glee.dts
+
+
+base-commit: 913f7eda9f3e3fb1c67285e144e202494d440049
+-- 
+2.55.0

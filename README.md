@@ -98,6 +98,10 @@ FEL identification and USB/SSH setup are documented in
 - TF-A `v2.15.0`, commit `da738d5eae93af342fdc4995dd3c05acb4c9d757`.
 - `sunxi-tools`, commit `d7bbd172a5da601a08f94479de308c6fb714a19a`.
 
+The separate [mainline draft](mainline/README.md) is based on the current
+Allwinner maintainer branch and contains one minimal canonical board DTS. It
+does not replace the known-good staged runtime tree yet.
+
 ## Documentation constraint
 
 No board schematic or official SPC board manual was available. The only SoC
@@ -157,6 +161,10 @@ No existía un esquema de placa ni un manual oficial de SPC. El único documento
 de registros y direcciones de memoria del SoC usado durante el trabajo de bajo
 nivel fue el PDF **Allwinner A64 User Manual v1.1**. Los DTB vendor de Android
 sirvieron como evidencia, pero no se redistribuyen.
+
+El [borrador para mainline](mainline/README.md) está separado del árbol runtime
+conocido-bueno y contiene un DTS canónico mínimo basado en la rama actual del
+mantenedor Allwinner.
 
 Consulta [manual_usuario.md](manual_usuario.md),
 [arquitectura.md](arquitectura.md), [roadmap.md](roadmap.md) y
