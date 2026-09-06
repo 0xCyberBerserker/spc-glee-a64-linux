@@ -20,8 +20,8 @@
 
 ### P2 — upstream-quality hardware support
 
-- [x] Prepare a minimal reviewable board DTS/binding draft series.
-- [ ] Boot-test the exact mainline-candidate DTB from microSD.
+- [x] Prepare a minimal reviewable board DTS/binding series.
+- [x] Boot-test the exact mainline-candidate DTB from microSD.
 - [ ] Re-evaluate local Linux driver changes against newer upstream kernels.
 - [ ] Add suspend/resume, battery and long-duration stress tests.
 - [ ] Investigate GT2005 and GC0312 camera support.
@@ -52,8 +52,8 @@
 
 ### P2 — calidad upstream
 
-- [x] Preparar un borrador mínimo y revisable de DTS/bindings de placa.
-- [ ] Probar desde microSD el DTB candidato exacto para mainline.
+- [x] Preparar una serie mínima y revisable de DTS/bindings de placa.
+- [x] Probar desde microSD el DTB candidato exacto para mainline.
 - [ ] Reevaluar los cambios locales frente a kernels posteriores.
 - [ ] Añadir pruebas de suspensión, batería y estrés prolongado.
 - [ ] Investigar las cámaras GT2005 y GC0312.

@@ -1,18 +1,25 @@
-From 08670d15ad6b0233277ea812bc01faa28628f905 Mon Sep 17 00:00:00 2001
-From: 0xCyberBerserker <64371885+0xCyberBerserker@users.noreply.github.com>
-Date: Sun, 6 Sep 2026 14:16:35 +0200
-Subject: [PATCH 2/2] arm64: dts: allwinner: Add SPC Glee 10.1 A64
+From e029e83bf7e0b298e78bdd1ca3c0c9247978d37e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Juan=20Carlos=20Guti=C3=A9rrez=20Lavado?=
+ <jcarlosgl96@proton.me>
+Date: Sun, 6 Sep 2026 17:11:41 +0200
+Subject: [PATCH v1 2/2] arm64: dts: allwinner: Add SPC Glee 10.1 A64
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Add minimal support for the SPC Glee 10.1 tablet. Enable the AXP803
-PMIC, battery monitoring, microSD slot, UART console and USB peripheral
-port. Leave eMMC and peripherals that still require local driver changes
-disabled.
+Add support for the SPC Glee 10.1 tablet based on the Allwinner
+A64. Describe the 2 GiB of DRAM, AXP803 PMIC, essential CPU and
+system rails, microSD slot, UART console, battery monitoring and USB
+peripheral port. Leave eMMC and unverified peripherals disabled.
 
-Signed-off-by: 0xCyberBerserker <64371885+0xCyberBerserker@users.noreply.github.com>
+This configuration was boot-tested from microSD to Arch Linux ARM
+userspace without regulator_ignore_unused.
+
+Signed-off-by: Juan Carlos Gutiérrez Lavado <jcarlosgl96@proton.me>
 ---
- arch/arm64/boot/dts/allwinner/Makefile        |  1 +
- .../dts/allwinner/sun50i-a64-spc-glee.dts     | 79 +++++++++++++++++++
- 2 files changed, 80 insertions(+)
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../dts/allwinner/sun50i-a64-spc-glee.dts     | 123 ++++++++++++++++++
+ 2 files changed, 124 insertions(+)
  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a64-spc-glee.dts
 
 diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
@@ -29,10 +36,10 @@ index aa21f58a4..cc6687b39 100644
  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-a100-allwinner-perf1.dtb
 diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-spc-glee.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-spc-glee.dts
 new file mode 100644
-index 000000000..0e0d24369
+index 000000000..1ca7c36de
 --- /dev/null
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-spc-glee.dts
-@@ -0,0 +1,79 @@
+@@ -0,0 +1,123 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (C) 2026 SPC Glee A64 Linux contributors
@@ -59,6 +66,22 @@ index 000000000..0e0d24369
 +		device_type = "memory";
 +		reg = <0x40000000 0x80000000>;
 +	};
++};
++
++&cpu0 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
++&cpu1 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
++&cpu2 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
++&cpu3 {
++	cpu-supply = <&reg_dcdc2>;
 +};
 +
 +&mmc0 {
@@ -96,6 +119,34 @@ index 000000000..0e0d24369
 +&reg_dcdc1 {
 +	regulator-always-on;
 +	regulator-name = "vcc-3v3";
++};
++
++&reg_dcdc2 {
++	regulator-always-on;
++	regulator-min-microvolt = <1000000>;
++	regulator-max-microvolt = <1300000>;
++	regulator-name = "vdd-cpux";
++};
++
++&reg_dcdc5 {
++	regulator-always-on;
++	regulator-min-microvolt = <1500000>;
++	regulator-max-microvolt = <1500000>;
++	regulator-name = "vcc-dram";
++};
++
++&reg_dcdc6 {
++	regulator-always-on;
++	regulator-min-microvolt = <1100000>;
++	regulator-max-microvolt = <1100000>;
++	regulator-name = "vdd-sys";
++};
++
++&reg_fldo2 {
++	regulator-always-on;
++	regulator-min-microvolt = <1100000>;
++	regulator-max-microvolt = <1100000>;
++	regulator-name = "vdd-cpus";
 +};
 +
 +&uart0 {
