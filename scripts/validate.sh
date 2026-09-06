@@ -9,6 +9,9 @@ required=(
 	README.md AGENTS.md CHANGELOG.md manual_usuario.md arquitectura.md roadmap.md
 	docs/sources.md docs/hardware-support.md docs/touchscreen-firmware.md
 	device-tree/sun50i-a64-spc-glee-sd-minimal.dts
+	mainline/README.md mainline/v1/0000-cover-letter.patch
+	mainline/v1/0001-dt-bindings-arm-sunxi-Add-SPC-Glee-10.1-A64.patch
+	mainline/v1/0002-arm64-dts-allwinner-Add-SPC-Glee-10.1-A64.patch
 	docker/Dockerfile scripts/build-kernel.sh
 )
 

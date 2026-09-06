@@ -1,0 +1,46 @@
+From fc1f967c76ea49bc3d2fd8cd30f6902538a68a10 Mon Sep 17 00:00:00 2001
+From: 0xCyberBerserker <64371885+0xCyberBerserker@users.noreply.github.com>
+Date: Sun, 6 Sep 2026 14:12:00 +0200
+Subject: [PATCH 1/2] dt-bindings: arm: sunxi: Add SPC Glee 10.1 A64
+
+Add the Smart Products Connection vendor prefix and the board
+compatible for the SPC Glee 10.1 tablet based on the Allwinner A64.
+
+Signed-off-by: 0xCyberBerserker <64371885+0xCyberBerserker@users.noreply.github.com>
+---
+ Documentation/devicetree/bindings/arm/sunxi.yaml       | 5 +++++
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 2 files changed, 7 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index f04db28c6..ce425938c 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -902,6 +902,11 @@ properties:
+           - const: allwinner,suniv-f1c200s
+           - const: allwinner,suniv-f1c100s
+ 
++      - description: SPC Glee 10.1 A64 tablet
++        items:
++          - const: spc,glee-10-1-a64
++          - const: allwinner,sun50i-a64
++
+       - description: SL631 Action Camera with IMX179
+         items:
+           - const: allwinner,sl631-imx179
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index ba2002969..ff462d6f0 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1603,6 +1603,8 @@ patternProperties:
+     description: Spansion Inc.
+   "^sparkfun,.*":
+     description: SparkFun Electronics
++  "^spc,.*":
++    description: Smart Products Connection S.A.
+   "^spinalhdl,.*":
+     description: SpinalHDL
+   "^sprd,.*":
+-- 
+2.55.0
+
