@@ -1,0 +1,2 @@
+# Preserve mailed patches, including context markers and signature separators.
+mainline/**/*.patch -whitespace

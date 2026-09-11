@@ -12,6 +12,9 @@ required=(
 	mainline/README.md mainline/v1/0000-cover-letter.patch
 	mainline/v1/0001-dt-bindings-arm-sunxi-Add-SPC-Glee-10.1-A64.patch
 	mainline/v1/0002-arm64-dts-allwinner-Add-SPC-Glee-10.1-A64.patch
+	mainline/v2/0000-cover-letter.patch mainline/v2/TESTING.md
+	mainline/v2/0001-dt-bindings-arm-sunxi-Add-SPC-Glee-10.1-A64.patch
+	mainline/v2/0002-arm64-dts-allwinner-Add-SPC-Glee-10.1-A64.patch
 	docker/Dockerfile scripts/build-kernel.sh
 )
 
@@ -27,7 +30,7 @@ if command -v shellcheck >/dev/null; then
 	shellcheck scripts/*.sh rootfs-overlay/usr/local/sbin/spc-usb-gadget
 fi
 
-if rg -n --hidden --glob '!.git/**' --glob '!scripts/validate.sh' \
+if rg -n --hidden --glob '!.git' --glob '!.git/**' --glob '!scripts/validate.sh' \
 	'(BEGIN (OPENSSH|RSA|EC) PRIVATE KEY|password\s*=|passwd\s*=|/home/[[:alnum:]_-]+/|100\.[0-9]+\.[0-9]+\.[0-9]+)' .; then
 	printf 'Potential private material found.\n' >&2
 	exit 1

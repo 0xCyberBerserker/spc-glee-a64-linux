@@ -7,12 +7,10 @@ credentials, workstation configuration, firmware dumps or storage images.
 
 ## Upstream status
 
-The [minimal board-support series](https://github.com/0xCyberBerserker/spc-glee-a64-linux/tree/features/mainline-dts/mainline)
-contains the exact hardware-tested candidate DTB. It cold-booted Linux from
-microSD, mounted the root filesystem and started systemd. PATCH v1 was
-[submitted for upstream review](https://lore.kernel.org/all/20260906-b4-spc-glee-a64-v1-v1-0-621df2155e31@proton.me/)
-on 2026-09-06. These results apply to the minimal mainline candidate; the
-known-good runtime and its broader hardware support remain a separate baseline.
+The [v2 board-support series](mainline/v2/) was [submitted for upstream review](https://lore.kernel.org/all/20260911-b4-spc-glee-a64-v1-v2-0-ed0b7ff02e0b@proton.me/) on 2026-09-11. It uses the `onspc` prefix, CPU OPPs, PMIC USB detection and the required always-on supplies. Cold boot, CPUfreq, automatic thermal cooling and USB reconnection were tested. Two CPU workers completed 10 minutes of load; sustained full four-core load and longer stability remain pending. See [test results](mainline/v2/TESTING.md).
+
+These results apply to the minimal upstream candidate. The broader known-good
+runtime remains a separate baseline.
 
 > Status: Linux boots from microSD and the tested system has remained stable for
 > a maintainer-reported 6–7 day USB-connected uptime. This duration is a field report,
@@ -122,12 +120,10 @@ privadas, credenciales, configuración de la torre, dumps de firmware ni imágen
 
 ## Estado upstream
 
-La [serie mínima de soporte de placa](https://github.com/0xCyberBerserker/spc-glee-a64-linux/tree/features/mainline-dts/mainline)
-contiene el DTB candidato exacto probado en hardware. Arrancó Linux en frío
-desde microSD, montó el sistema raíz e inició systemd. El PATCH v1 se
-[envió para revisión upstream](https://lore.kernel.org/all/20260906-b4-spc-glee-a64-v1-v1-0-621df2155e31@proton.me/)
-el 06-09-2026. Estos resultados corresponden al candidato mainline mínimo; el
-runtime conocido-bueno y su soporte de hardware más amplio siguen separados.
+La [serie v2 de soporte de placa](mainline/v2/) se [envió para revisión upstream](https://lore.kernel.org/all/20260911-b4-spc-glee-a64-v1-v2-0-ed0b7ff02e0b@proton.me/) el 11-09-2026. Incluye el prefijo `onspc`, OPP de CPU, detección USB del PMIC y las alimentaciones permanentes necesarias. Se probaron el arranque en frío, CPUfreq, refrigeración automática y reconexión USB. Dos procesos completaron 10 minutos de carga; quedan pendientes la carga sostenida de cuatro núcleos y la estabilidad prolongada. Consulta los [resultados](mainline/v2/TESTING.md).
+
+Estos resultados corresponden al candidato upstream mínimo. El runtime
+conocido y su soporte de hardware más amplio siguen siendo una base separada.
 
 > Estado: Linux arranca desde microSD y el sistema probado acumula un uptime
 > comunicado por el mantenedor de 6–7 días conectado por USB. Es una observación

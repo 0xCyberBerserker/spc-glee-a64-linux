@@ -7,6 +7,11 @@ and Semantic Versioning.
 
 ### Added / Añadido
 
+- Archived the submitted v2 series and documented cold-boot, CPUfreq, USB and
+  automatic thermal cooling tests, including their validation limits.
+- Archivada la serie v2 enviada y documentadas las pruebas de arranque en frío,
+  CPUfreq, USB y refrigeración automática, incluidos sus límites de validación.
+
 - Added a hardware-tested, schema-validated mainline series for minimal SPC
   Glee A64 board support, ready for maintainer review.
 
